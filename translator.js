@@ -1,8 +1,6 @@
-console.log("stop stalking me orphanlol")
-alert("retard")
-
 function RaveVM(javaCode) {
-    // Enhanced translation with more features
+    // Enhanced translation with LWJGL and Minecraft support
+    // I hope Works.
     let pythonCode = javaCode
         .replace(/public\s+/g, '') // Remove access modifiers
         .replace(/private\s+/g, '') // Remove private modifier
@@ -33,13 +31,47 @@ function RaveVM(javaCode) {
         .replace(/(\w+)\s*\[(\d+)\]/g, '$1[$2]') // Array access
         .replace(/break;/g, 'break') // Break statement
         .replace(/continue;/g, 'continue') // Continue statement
+        .replace(/try\s*{/g, 'try:') // Try block
+        .replace(/catch\s*\((.*?)\)\s*{/g, 'except $1:') // Catch block
+        .replace(/finally\s*{/g, 'finally:') // Finally block
+        .replace(/throws\s+\w+/g, '') // Remove throws declaration
+        .replace(/interface\s+\w+/g, 'class') // Simplified interface handling
+        .replace(/@Override/g, '') // Remove annotations
+        .replace(/public\s+static\s+void\s+main\s*\(String\[\]\s+\w+\)\s*{/g, 'if __name__ == "__main__":') // Main method
+
+        // LWJGL and Minecraft specific translations
+        .replace(/GL\.glBegin\((\w+)\);/g, 'glBegin($1)') // OpenGL begin
+        .replace(/GL\.glEnd\(\);/g, 'glEnd()') // OpenGL end
+        .replace(/Minecraft\.getInstance\(\)/g, 'Minecraft.getInstance()') // Minecraft instance
+        .replace(/Minecraft\.getInstance\(\)/g, 'Minecraft.getInstance()') // Minecraft instance
+        .replace(/GL\.glColor3f\((.+?)\);/g, 'glColor3f($1)') // OpenGL color
+        .replace(/GL\.glVertex3f\((.+?)\);/g, 'glVertex3f($1)') // OpenGL vertex
+        .replace(/GL\.glTranslatef\((.+?)\);/g, 'glTranslatef($1)') // OpenGL translation
+        .replace(/GL\.glRotatef\((.+?)\);/g, 'glRotatef($1)') // OpenGL rotation
+        .replace(/GL\.glScalef\((.+?)\);/g, 'glScalef($1)') // OpenGL scaling
+        .replace(/GL\.glClear\((\w+)\);/g, 'glClear($1)') // OpenGL clear
+        .replace(/GL\.glEnable\((\w+)\);/g, 'glEnable($1)') // OpenGL enable
+        .replace(/GL\.glDisable\((\w+)\);/g, 'glDisable($1)') // OpenGL disable
+        .replace(/GL\.glBindTexture\((\w+),\s*(\w+)\);/g, 'glBindTexture($1, $2)') // OpenGL bind texture
+        .replace(/EntityPlayer\s+(\w+)\s*=\s*Minecraft\.getInstance\(\).player;/g, 'player = Minecraft.getInstance().player') // Minecraft player instance
+        .replace(/World\s+(\w+)\s*=\s*Minecraft\.getInstance\(\).world;/g, 'world = Minecraft.getInstance().world') // Minecraft world instance
+        .replace(/new\s+Entity\((.+?)\);/g, 'Entity($1)') // Entity instantiation
+        .replace(/this\.render\(.*?\);/g, 'self.render()') // Render method call
+        .replace(/@SideOnly\("client"\)/g, '') // Remove client-side annotations
+        .replace(/@SideOnly\("server"\)/g, '') // Remove server-side annotations
+        .replace(/public\s+void\s+onUpdate\(\)/g, 'def onUpdate(self):') // Update method
+        .replace(/public\s+void\s+render\(\)/g, 'def render(self):') // Render method
+        .replace(/public\s+void\s+init\(\)/g, 'def init(self):') // Init method
+        .replace(/public\s+void\s+draw\(\)/g, 'def draw(self):') // Draw method
 
     return pythonCode.trim(); // Return trimmed code
 }
 
 // Event listener for button click
-document.getElementById("translateBtn").addEventListener("click", function() {
-    const javaInput = document.getElementById("javaInput").value;
-    const pythonOutput = RaveVM(javaInput);
-    document.getElementById("pythonOutput").textContent = pythonOutput;
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("translateBtn").addEventListener("click", function() {
+        const javaInput = document.getElementById("javaInput").value;
+        const pythonOutput = RaveVM(javaInput);
+        document.getElementById("pythonOutput").textContent = pythonOutput;
+    });
 });
